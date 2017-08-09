@@ -65,14 +65,49 @@
 (define fun11recur
   (lambda (n)
     (cond
-     ((< n 3) n)
+     ((<= n 3) n)
      (else (+ (fun11recur (- n 1)) (* 2 (fun11recur (- n 2))) (* 3 (fun11recur (- n 3))))))))
 
 (define fun11iter
   (lambda (n)
-    (let loop ((n n) (a a) (b b) (c c))
+    (let loop ((n n) (a 3) (b 2) (c 1))
       (cond
-       ((< n 3) n)
-       (else (loop (- n 1) (fun11recur (- n 1)) (* 2 (fun11recur (- n 2))) (* 3 (fun11recur (- n 3))))))))
-      
+       ((<= n 3) a)
+       (else
+	(loop (- n 1) (+ a (* 2 b) (* 3 c)) a b))))))
+
+;;------------------
+;; 1.12
+;;------------------
+
+;; n = 1 1
+;; n = 2 1 1
+;; n = 3 1 2 1
+;; n = 4 1 3 3 1
+;; n = 5 1 4 6 4 1
+;; ...
+;; n = n 1 f(n-1,1)+f(n-1,2) f(n-1,2)+f(n-1,3) ... 1
+
+;;------------------
+;; 1.14
+;;------------------
+
+(define (count-change amount)
+  (cc amount 5))
+
+(define (cc amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+        (else (+ (cc amount
+                     (- kinds-of-coins 1))
+                 (cc (- amount
+                        (first-denomination kinds-of-coins))
+                     kinds-of-coins)))))
+
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
 
