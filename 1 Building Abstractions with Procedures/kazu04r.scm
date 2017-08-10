@@ -71,7 +71,7 @@
 (define fun11iter
   (lambda (n)
     (let loop ((n n) (a 3) (b 2) (c 1))
-      (cond
+v      (cond
        ((<= n 3) a)
        (else
 	(loop (- n 1) (+ a (* 2 b) (* 3 c)) a b))))))
@@ -146,5 +146,54 @@
 ;; ステップ Θ(n) ?
 ;; スペース Θ(n) ?
 
+;;------------------
+;; 1.16
+;;------------------
+
+(define (expt b n)
+  (expt-iter b n 1))
+
+(define (expt-iter b counter product)
+  (if (= counter 0)
+      product
+      (expt-iter b
+                (- counter 1)
+                (* b product))))
+
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define expt-fast
+  (lambda (b n)
+    (expt-iter-fast b n 1)))
+
+(define expt-iter-fast
+  (lambda (b n res)
+    (if (= n 0)
+	res
+	(if (even? n)
+	    (expt-iter-fast b (/ n 2) (* res res))
+	    (expt-iter-fast b (- n 1) (* res (* b b)))))))
+
+;;------------------
+;; 1.17
+;;------------------
+
+(define my-double (lambda (x) (+ x x)))
+
+(define my-halve (lambda (x) (/ x 2)))
+
+(define (my-* a b)
+  (if (= b 0)
+      0
+      (+ a (my-* a (- b 1)))))
+
+;;iter
+(define my-*2
+  (lambda (a b)
+    (let loop ((a a) (b b) (res 0))
+      (if (= b 0)
+	  res
+	  (loop a (- b 1) (+ res a))))))
 
 
