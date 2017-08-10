@@ -79,6 +79,7 @@
 ;;------------------
 ;; 1.12
 ;;------------------
+;;TODO
 
 ;; n = 1 1
 ;; n = 2 1 1
@@ -89,8 +90,14 @@
 ;; n = n 1 f(n-1,1)+f(n-1,2) f(n-1,2)+f(n-1,3) ... 1
 
 ;;------------------
+;; 1.13
+;;------------------
+;;TODO
+
+;;------------------
 ;; 1.14
 ;;------------------
+;;TODO
 
 (define (count-change amount)
   (cc amount 5))
@@ -110,4 +117,34 @@
         ((= kinds-of-coins 3) 10)
         ((= kinds-of-coins 4) 25)
         ((= kinds-of-coins 5) 50)))
+
+;;------------------
+;; 1.15
+;;------------------
+(define p-count 1)
+
+(define (cube x) (* x x x))
+
+(define (p x) (print p-count)(set! p-count (+ p-count 1)) (- (* 3 x) (* 4 (cube x))))
+
+(define (sine angle)
+   (if (not (> (abs angle) 0.1))
+       angle
+       (p (sine (/ angle 3.0)))))
+
+;; gosh> (sine 12.15)
+;; 1
+;; 2
+;; 3
+;; 4
+;; 5
+;; -0.39980345741334
+
+;; (sine 12.15) -> (p (sine (/ 12.15 3))) -> (p (p (sine (/ (/ 12.15 3))))) ->
+;; (sine a) -> (p (sine (/ a 3))) -> (p (p (sine (/ a/3 3)))) -> (p (p (p (sine (/ a/9 3)))))
+
+;; ステップ Θ(n) ?
+;; スペース Θ(n) ?
+
+
 
